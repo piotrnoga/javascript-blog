@@ -35,18 +35,18 @@
 
         /* get 'href' attribute from the clicked link */
 
-        const getLinkAttribute = clickedElement.getAttribute("href");
+        const getLinkAttribute = clickedElement.getAttribute('href');
 
 
         /* find the correct article using the selector (value of 'href' attribute) */
 
-        const findArticle = document.getElementById(getLinkAttribute);
-        console.log(getLinkAttribute);
+        const findArticle = document.querySelector(getLinkAttribute);
+        console.log('findAtricle:', findArticle);
 
 
         /* add class 'active' to the correct article */
 
-
+        findArticle.classList.add('active');
     }
 
     const links = document.querySelectorAll('.titles a');
