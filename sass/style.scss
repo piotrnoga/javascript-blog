@@ -90,10 +90,10 @@ body {
 }
 
 .list-horizontal {
-  li {
-    display: inline-block;
-    margin: 0 3px;
-  }
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 
 /* Authors */
