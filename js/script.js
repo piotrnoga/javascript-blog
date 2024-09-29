@@ -1,10 +1,18 @@
 'use strict';
 
-/* ####################################### */
-/* FUNCTION TO FIND THE ARTICILE AFTER CLICK ON THE ELEMENT */
-/* ####################################### */
-
 {
+  const optArticleSelector = '.post',
+    optTitleSelector = '.post-title',
+    optTitleListSelector = '.titles',
+    optArticleTagsSelector = '.post-tags .list',
+    optArticleAuthorSelector = '.post-author',
+    optTagsListSelector = '.tags.list';
+
+
+  /* ####################################### */
+  /* FUNCTION TO FIND THE ARTICILE AFTER CLICK ON THE ELEMENT */
+  /* ####################################### */
+
   const titleClickHandler = function (event) {
     const clickedElement = this;
     event.preventDefault();
@@ -49,12 +57,6 @@
   /* ####################################### */
   /* FUNCTION TO GENERATE ARTICLE TITLE LIST */
   /* ####################################### */
-
-  const optArticleSelector = '.post',
-    optTitleSelector = '.post-title',
-    optTitleListSelector = '.titles',
-    optArticleTagsSelector = '.post-tags .list',
-    optArticleAuthorSelector = '.post-author';
 
   const generateTitleLinks = function (customSelector = '') {
     /* [DONE] remove contents of titleList */
@@ -109,6 +111,9 @@
 
   const generateTags = function () {
 
+    /* [NEW] create a new variable allTags with an empty array */
+    let allTags = [];
+
     /* [DONE] find all articles */
 
     const articles = document.querySelectorAll(optArticleSelector);
@@ -136,8 +141,6 @@
       const tagsArray = tags.split(' ');
       // console.log('tagsArray:', tagsArray);
 
-    
-    
       /* [DONE] START LOOP: for each tag */
 
       for (let tag of tagsArray) {
@@ -154,6 +157,12 @@
     
         /* [DONE] add generated code to html variable */
 
+        /* [NEW] check if this link is NOT already in allTags */
+        if(allTags.indexOf(linkHTML) == -1){
+          /* [NEW] add generated code to allTags array */
+          allTags.push(linkHTML);
+        }
+
         html = html + linkHTML;
     
         /* END LOOP: for each tag */
@@ -166,6 +175,13 @@
     
     /* [DONE] END LOOP: for every article: */
     }
+
+    /* [NEW] find list of tags in right column */
+    const tagList = document.querySelector(optTagsListSelector);
+
+    /* [NEW] add html from allTags to tagList */
+    tagList.innerHTML = allTags.join(' ');
+
   };
 
   generateTags();
