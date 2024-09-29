@@ -6,7 +6,9 @@
     optTitleListSelector = '.titles',
     optArticleTagsSelector = '.post-tags .list',
     optArticleAuthorSelector = '.post-author',
-    optTagsListSelector = '.tags.list';
+    optTagsListSelector = '.tags.list',
+    optCloudClassCount = 5,
+    optCloudClassPrefix = 'tag-size-';
 
 
   /* ####################################### */
@@ -106,11 +108,53 @@
   generateTitleLinks();
 
   /* ####################################### */
+  /* FUNCTION TO CALCULATE OCCURENCES  */
+  /* ####################################### */
+
+  const calculateTagsParams = function (tags) {
+    
+    const params = {
+      max : 0,
+      min : 999999
+    };
+
+    console.log(tags);
+
+    for (let tag in tags) {
+      // console.log(tag + ' is used ' + tags[tag] + ' times');
+
+      if(tags[tag] > params.max){
+        params.max = tags[tag];
+      }
+      if(tags[tag] < params.min){
+        params.min = tags[tag];
+      }
+    }
+
+    return params;
+  };
+
+  /* ####################################### */
+  /* FUNCTION TO CALCULATE TAG CLASS  */
+  /* ####################################### */
+
+  const calculateTagClass = function (count, params) {
+    console.log(count);
+
+    const normalizedCount = count - params.min;
+    const normalizedMax = params.max - params.min;
+    const precentage = normalizedCount / normalizedMax;
+    const classNumber = Math.floor(precentage * (optCloudClassCount - 1) + 1);
+
+    return optCloudClassPrefix + classNumber;
+  };
+
+  /* ####################################### */
   /* FUNCTION TO GENERATE TAG LIST */
   /* ####################################### */
 
   const generateTags = function () {
-
+    
     /* [NEW] create a new variable allTags with an empty object */
     let allTags = {};
 
@@ -182,12 +226,15 @@
     const tagList = document.querySelector(optTagsListSelector);
 
     /* [NEW] create variable for all links HTML code */
+    const tagsParams = calculateTagsParams(allTags);
+    console.log('tagsParams:', tagsParams);
+
     let allTagsHTML = '';
 
     /* [NEW] START LOOP: for each tag in allTags: */
     for(let tag in allTags){
       /* [NEW] generate code of a link and add it to allTagsHTML */
-      allTagsHTML += '<a href="#tag-' + tag + '">' + tag + '&nbsp;(' + allTags[tag] + ')</a> ';
+      allTagsHTML += '<a class="' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag + '">' + tag + '</a> ';
     }
     /* [NEW] END LOOP: for each tag in allTags: */
 
